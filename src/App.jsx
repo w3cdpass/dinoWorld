@@ -1,3 +1,4 @@
+// /src/App.jsx
 import { createBrowserRouter, Outlet } from "react-router";
 import Login from "./Components/auth/Login";
 import Navbar from "./Components/common/Navbar";

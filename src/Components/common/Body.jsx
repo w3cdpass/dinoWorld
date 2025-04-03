@@ -1,6 +1,7 @@
 // src/components/Body.jsx
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
+import FloatingButton from '../../utils/FloatingButton';
+import Tyrannosaurus from '/tyrannosaurus-rex.png'
 const Body = () => {
     const dinosaurs = [
         {
@@ -50,15 +51,46 @@ const Body = () => {
             size: "20 ft wingspan",
             fact: "Not actually a dinosaur, but a flying reptile that lived alongside them.",
             image: "https://upload.wikimedia.org/wikipedia/commons/7/77/Pteranodon_amnh_martyniuk.jpg"
+        },
+        {
+            name: "Pteranodon",
+            era: "Late Cretaceous",
+            diet: "Carnivore",
+            size: "20 ft wingspan",
+            fact: "Not actually a dinosaur, but a flying reptile that lived alongside them.",
+            image: "https://upload.wikimedia.org/wikipedia/commons/7/77/Pteranodon_amnh_martyniuk.jpg"
         }
     ];
 
-    return (
+    const diffCalled = ['Dinosaurs', 'Dinosaurios', '恐竜', 'डायनासोर', 'ديناصورات'];
+    const [currentWord, setCurrentWord] = useState(diffCalled[0]);
+    const [animate, setAnimate] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Trigger animation out
+            setAnimate(true);
+            
+            // After animation completes, change word and animate in
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * diffCalled.length);
+                setCurrentWord(diffCalled[randomIndex]);
+                setAnimate(false);
+            }, 500); // Matches the duration of the animation
+        }, 3000); // Change every 3 seconds
+
+        return () => clearInterval(interval);
+    }, []);    return (
+        <>
         <div className="bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-extrabold text-gray-100 sm:text-5xl sm:tracking-tight lg:text-6xl">
-                        Discover the <span className="text-amber-400">Dinosaurs</span>
+                        Discover the <span 
+                                className={`text-amber-400 inline-block transition-all duration-500 ${animate ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+                            >
+                                {currentWord}
+                            </span>
                     </h1>
                     <p className="mt-5 max-w-xl mx-auto text-xl text-gray-300">
                         Fascinating creatures that ruled the Earth for over 160 million years
@@ -66,7 +98,9 @@ const Body = () => {
                 </div>
 
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    {dinosaurs.map((dino, index) => (
+                        {dinosaurs.slice(0, 6
+                        
+                    ).map((dino, index) => (
                         <div
                             key={index}
                             className="bg-gray-700 overflow-hidden shadow-xl rounded-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
@@ -131,6 +165,8 @@ const Body = () => {
                 </div>
             </div>
         </div>
+            <FloatingButton icon={Tyrannosaurus} />
+        </>
     );
 };
 
